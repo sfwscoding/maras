@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#008069">
+  
+  <title>API Tester — ผู้ใช้ (Green Theme)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  
+  <div class="container">
+    <header>
+      <h1>API Tester</h1>
+      <p class="subtitle">ทดสอบ API (Flask + MongoDB) — ธีมสีเขียว</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>1. รายการผู้ใช้ (GET /api/users)</h2>
+        <div class="row">
+          <button id="btn-refresh" class="btn">ดึงรายการทั้งหมด</button>
+          <button id="btn-health" class="btn ghost">เช็ค health</button>
+        </div>
+        <div id="users-area" class="list-area">ยังไม่ได้โหลดข้อมูล</div>
+      </section>
+
+      <section class="panel">
+        <h2>2. สร้างผู้ใช้ (POST /api/users)</h2>
+        <form id="create-form" class="form">
+          <label>id (optional): <input name="id" placeholder="custom-id-123"></label>
+          <label>name*: <input name="name" required placeholder="ชื่อ"></label>
+          <label>email*: <input name="email" type="email" required placeholder="email@example.com"></label>
+          <label>role: <input name="role" placeholder="ตำแหน่ง"></label>
+          <div class="row">
+            <button type="submit" class="btn primary">สร้าง (POST)</button>
+            <button type="reset" class="btn ghost">รีเซ็ต</button>
+          </div>
+        </form>
+        <pre id="create-result" class="result">ผลลัพธ์จะขึ้นที่นี่</pre>
+      </section>
+
+      <section class="panel">
+        <h2>3. อ่าน / แก้ไข / ลบ ตาม id</h2>
+        <form id="id-ops-form" class="form-inline">
+          <label>user id: <input id="target-id" placeholder="ใส่ id หรือ ObjectId"></label>
+          <div class="row">
+            <button type="button" id="btn-get" class="btn inline">GET</button>
+            <button type="button" id="btn-delete" class="btn danger inline">DELETE</button>
+          </div>
+        </form>
+
+        <div class="update-block">
+          <h3>PUT — อัปเดตฟิลด์ (name, email, role)</h3>
+          <form id="update-form" class="form">
+            <label>name: <input name="name" placeholder="ชื่อใหม่"></label>
+            <label>email: <input name="email" type="email" placeholder="ใหม่@example.com"></label>
+            <label>role: <input name="role" placeholder="new role"></label>
+            <div class="row">
+              <button id="btn-put" class="btn">PUT (อัปเดต)</button>
+            </div>
+          </form>
+        </div>
+      
+        <h3>Response / Debug</h3>
+        <pre id="debug" class="result">ไม่มีการเรียก API ล่าสุด</pre>
+      </section>
+    </main>
+
+    <footer>
+      <small>API host: <code id="api-host">https://...</code></small>
+    </footer>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

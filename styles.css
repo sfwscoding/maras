@@ -1,0 +1,229 @@
+:root {
+  --bg: #F0F2F5; /* พื้นหลังเทาอ่อน (คล้าย WhatsApp) */
+  --card: #FFFFFF; /* การ์ดสีขาว */
+  --accent: #00A884; /* เขียวสด (ปุ่ม) */
+  --accent-dark: #008069; /* เขียวเข้ม (Header) */
+  --text: #111B21; /* สีข้อความเข้ม */
+  --muted: #667781; /* สีข้อความรอง */
+  --danger: #D9534F; /* สีแดงสำหรับลบ */
+  --radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  background: var(--accent-dark);
+  color: white;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: #E0F2F1;
+  font-weight: 300;
+  font-size: 0.9rem;
+}
+
+.container {
+  max-width: 600px; /* เหมาะสำหรับมือถือและแท็บเล็ต */
+  margin: 0 auto;
+  padding: 0;
+}
+
+main {
+  padding: 16px;
+}
+
+.panel {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  border: 1px solid #E0E0E0;
+}
+
+.panel h2 {
+  margin-top: 0;
+  color: var(--accent-dark);
+  border-bottom: 1px solid #EEE;
+  padding-bottom: 8px;
+}
+
+.panel h3 {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 12px 16px; /* ใหญ่ขึ้น */
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 168, 132, 0.2);
+  font-weight: 600;
+  width: 100%; /* เต็มความกว้าง */
+  font-size: 16px; /* ป้องกัน iOS ซูม */
+  text-align: center;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  box-shadow: none;
+}
+
+.btn.danger {
+  background: var(--danger);
+  box-shadow: 0 2px 6px rgba(217, 83, 79, 0.2);
+}
+
+.btn.inline {
+  width: auto;
+  flex-grow: 1;
+}
+
+.list-area {
+  margin-top: 12px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* รูปแบบ Card สำหรับแสดง User */
+.user-card {
+  background: #F9F9F9;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.user-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #DDD;
+}
+
+.user-card-header small {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 600;
+  background: #E6F6F3;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.user-card-body {
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+.user-card-body p {
+  margin: 4px 0;
+  color: var(--muted);
+}
+.user-card-body p strong {
+  color: var(--text);
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.form-inline {
+  display: flex;
+  flex-direction: column; /* เปลี่ยนเป็นแนวตั้ง */
+  gap: 10px;
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: var(--muted);
+  width: 100%;
+}
+
+input, textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #CCC;
+  background: #FFF;
+  margin-top: 6px;
+  width: 100%;
+  font-size: 16px; /* ป้องกัน iOS ซูม */
+}
+
+input:focus {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.result {
+  background: #F4F4F4;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #E0E0E0;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow: auto;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+/* ไม่ใช้ grid-2 แล้ว */
+/* .grid-2{ display:grid; grid-template-columns: 1fr; gap:16px } */
+
+footer {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 16px;
+}
+
+code {
+  background: #E6F6F3;
+  padding: 2px 6px;
+  border-radius: 5px;
+  color: #008069;
+}
