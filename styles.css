@@ -1,5 +1,5 @@
 :root {
-  --bg: #F0F2F5; /* พื้นหลังเทาอ่อน (คล้าย WhatsApp) */
+  --bg: #F0F2F5; /* พื้นหลังเทาอ่อน */
   --card: #FFFFFF; /* การ์ดสีขาว */
   --accent: #00A884; /* เขียวสด (ปุ่ม) */
   --accent-dark: #008069; /* เขียวเข้ม (Header) */
@@ -18,6 +18,7 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 80px; /* เพิ่มพื้นที่ด้านล่างสำหรับเมนู */
 }
 
 header {
@@ -30,11 +31,7 @@ header {
   z-index: 10;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.25rem;
-}
-
+header h1 { margin: 0; font-size: 1.25rem; }
 .subtitle {
   margin: 4px 0 0 0;
   color: #E0F2F1;
@@ -43,14 +40,12 @@ header h1 {
 }
 
 .container {
-  max-width: 600px; /* เหมาะสำหรับมือถือและแท็บเล็ต */
+  max-width: 600px;
   margin: 0 auto;
   padding: 0;
 }
 
-main {
-  padding: 16px;
-}
+main { padding: 16px; }
 
 .panel {
   background: var(--card);
@@ -67,10 +62,7 @@ main {
   border-bottom: 1px solid #EEE;
   padding-bottom: 8px;
 }
-
-.panel h3 {
-  margin-top: 20px;
-}
+.panel h3 { margin-top: 20px; }
 
 .row {
   display: flex;
@@ -84,13 +76,13 @@ main {
   background: var(--accent);
   border: none;
   color: white;
-  padding: 12px 16px; /* ใหญ่ขึ้น */
+  padding: 12px 16px;
   border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 168, 132, 0.2);
   font-weight: 600;
-  width: 100%; /* เต็มความกว้าง */
-  font-size: 16px; /* ป้องกัน iOS ซูม */
+  width: 100%;
+  font-size: 16px;
   text-align: center;
 }
 
@@ -100,16 +92,8 @@ main {
   border: 1px solid var(--accent);
   box-shadow: none;
 }
-
-.btn.danger {
-  background: var(--danger);
-  box-shadow: 0 2px 6px rgba(217, 83, 79, 0.2);
-}
-
-.btn.inline {
-  width: auto;
-  flex-grow: 1;
-}
+.btn.danger { background: var(--danger); }
+.btn.inline { width: auto; flex-grow: 1; }
 
 .list-area {
   margin-top: 12px;
@@ -119,7 +103,6 @@ main {
   gap: 10px;
 }
 
-/* รูปแบบ Card สำหรับแสดง User */
 .user-card {
   background: #F9F9F9;
   border: 1px solid #E0E0E0;
@@ -127,7 +110,6 @@ main {
   padding: 12px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-
 .user-card-header {
   display: flex;
   justify-content: space-between;
@@ -136,7 +118,6 @@ main {
   padding-bottom: 6px;
   border-bottom: 1px dashed #DDD;
 }
-
 .user-card-header small {
   font-size: 0.9rem;
   color: var(--accent);
@@ -145,19 +126,9 @@ main {
   padding: 2px 6px;
   border-radius: 4px;
 }
-
-.user-card-body {
-  margin-top: 8px;
-  font-size: 0.95rem;
-}
-.user-card-body p {
-  margin: 4px 0;
-  color: var(--muted);
-}
-.user-card-body p strong {
-  color: var(--text);
-}
-
+.user-card-body { margin-top: 8px; font-size: 0.95rem; }
+.user-card-body p { margin: 4px 0; color: var(--muted); }
+.user-card-body p strong { color: var(--text); }
 
 .form {
   display: flex;
@@ -165,10 +136,9 @@ main {
   gap: 12px;
   margin-top: 8px;
 }
-
 .form-inline {
   display: flex;
-  flex-direction: column; /* เปลี่ยนเป็นแนวตั้ง */
+  flex-direction: column;
   gap: 10px;
   align-items: stretch;
   margin-top: 8px;
@@ -181,7 +151,6 @@ label {
   color: var(--muted);
   width: 100%;
 }
-
 input, textarea {
   padding: 12px 14px;
   border-radius: 8px;
@@ -189,9 +158,8 @@ input, textarea {
   background: #FFF;
   margin-top: 6px;
   width: 100%;
-  font-size: 16px; /* ป้องกัน iOS ซูม */
+  font-size: 16px;
 }
-
 input:focus {
   border-color: var(--accent);
   outline: 2px solid var(--accent);
@@ -210,9 +178,6 @@ input:focus {
   word-break: break-all;
 }
 
-/* ไม่ใช้ grid-2 แล้ว */
-/* .grid-2{ display:grid; grid-template-columns: 1fr; gap:16px } */
-
 footer {
   margin-top: 8px;
   color: var(--muted);
@@ -220,10 +185,61 @@ footer {
   text-align: center;
   padding: 16px;
 }
-
 code {
   background: #E6F6F3;
   padding: 2px 6px;
   border-radius: 5px;
   color: #008069;
+}
+
+/* --- 💡 โค้ดใหม่สำหรับ Bottom Nav --- */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  background: var(--card);
+  border-top: 1px solid #E0E0E0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-width: 600px; /* ให้กว้างเท่า .container */
+  margin: 0 auto;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  text-decoration: none;
+  color: var(--muted);
+  gap: 4px;
+}
+
+.nav-item svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--muted);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-item span {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* สถานะ Active (หน้าปัจจุบัน) */
+.nav-item.active {
+  color: var(--accent);
+}
+.nav-item.active svg {
+  stroke: var(--accent);
 }

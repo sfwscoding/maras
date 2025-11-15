@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#008069">
-  <title>API Tester — รายการผู้ใช้</title>
+  <title>API Tester — ค้นหา/ลบ</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -12,16 +12,34 @@
   <div class="container">
     <header>
       <h1>API Tester</h1>
-      <p class="subtitle">ธีมสีเขียว (หน้า 1/4: รายการ)</p>
+      <p class="subtitle">ธีมสีเขียว (หน้า 3/4: ค้นหา)</p>
     </header>
 
     <main>
       <section class="panel">
-        <h2>1. รายการผู้ใช้ (GET /api/users)</h2>
-        <div class="row">
-          <button id="btn-refresh" class="btn">รีเฟรชรายการ</button>
+        <h2>3. อ่าน / แก้ไข / ลบ ตาม id</h2>
+        <form id="id-ops-form" class="form-inline">
+          <label>user id: <input id="target-id" placeholder="ใส่ id หรือ ObjectId"></label>
+          <div class="row">
+            <button type="button" id="btn-get" class="btn inline">GET</button>
+            <button type="button" id="btn-delete" class="btn danger inline">DELETE</button>
+          </div>
+        </form>
+
+        <div class="update-block">
+          <h3>PUT — อัปเดตฟิลด์</h3>
+          <form id="update-form" class="form">
+            <label>name: <input name="name" placeholder="ชื่อใหม่"></label>
+            <label>email: <input name="email" type="email" placeholder="ใหม่@example.com"></label>
+            <label>role: <input name="role" placeholder="new role"></label>
+            <div class="row">
+              <button id="btn-put" class="btn">PUT (อัปเดต)</button>
+            </div>
+          </form>
         </div>
-        <div id="users-area" class="list-area">ยังไม่ได้โหลดข้อมูล</div>
+      
+        <h3>Response / Debug</h3>
+        <pre id="debug" class="result">ไม่มีการเรียก API ล่าสุด</pre>
       </section>
 
       <footer>
@@ -30,7 +48,7 @@
     </main>
 
     <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
+      <a href="index.html" class="nav-item">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         <span>รายการ</span>
       </a>
@@ -38,7 +56,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
         <span>สร้าง</span>
       </a>
-      <a href="search.html" class="nav-item">
+      <a href="search.html" class="nav-item active">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         <span>ค้นหา/ลบ</span>
       </a>

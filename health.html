@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#008069">
-  <title>API Tester — รายการผู้ใช้</title>
+  <title>API Tester — สถานะ</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -12,16 +12,20 @@
   <div class="container">
     <header>
       <h1>API Tester</h1>
-      <p class="subtitle">ธีมสีเขียว (หน้า 1/4: รายการ)</p>
+      <p class="subtitle">ธีมสีเขียว (หน้า 4/4: สถานะ)</p>
     </header>
 
     <main>
       <section class="panel">
-        <h2>1. รายการผู้ใช้ (GET /api/users)</h2>
+        <h2>4. ตรวจสอบสถานะ (Health Check)</h2>
         <div class="row">
-          <button id="btn-refresh" class="btn">รีเฟรชรายการ</button>
+          <button id="btn-health" class="btn ghost">เช็ค health (GET /health)</button>
         </div>
-        <div id="users-area" class="list-area">ยังไม่ได้โหลดข้อมูล</div>
+      </section>
+
+      <section class="panel">
+        <h3>Response / Debug</h3>
+        <pre id="debug" class="result">ไม่มีการเรียก API ล่าสุด</pre>
       </section>
 
       <footer>
@@ -30,7 +34,7 @@
     </main>
 
     <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
+      <a href="index.html" class="nav-item">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         <span>รายการ</span>
       </a>
@@ -42,7 +46,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         <span>ค้นหา/ลบ</span>
       </a>
-      <a href="health.html" class="nav-item">
+      <a href="health.html" class="nav-item active">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
         <span>สถานะ</span>
       </a>

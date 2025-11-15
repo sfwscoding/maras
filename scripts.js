@@ -1,56 +1,66 @@
-// Base API host (ตามที่คุณระบุ)
+// --- 1. ส่วนกลาง (ใช้ทุกหน้า) ---
+
 const API_HOST = "https://app-87q3k0clt-flasks-projects-987fd076.vercel.app";
-document.getElementById('api-host').textContent = API_HOST;
-
-const usersArea = document.getElementById('users-area');
-const debug = document.getElementById('debug');
-const createResult = document.getElementById('create-result');
-
-function setDebug(title, obj) {
-  debug.textContent = `${title}\n\n${JSON.stringify(obj, null, 2)}`;
+const hostElement = document.getElementById('api-host');
+if (hostElement) {
+  hostElement.textContent = API_HOST;
 }
 
-// --- Helper for fetch with error handling ---
+// Helpers ที่ต้องตรวจสอบ Element ก่อน
+const debug = document.getElementById('debug');
+const createResult = document.getElementById('create-result');
+const usersArea = document.getElementById('users-area');
+
+function setDebug(title, obj) {
+  if (debug) {
+    debug.textContent = `${title}\n\n${JSON.stringify(obj, null, 2)}`;
+  }
+}
+
+function setCreateResult(r) {
+  if (createResult) {
+    createResult.textContent = JSON.stringify(r, null, 2);
+  }
+}
+
+// Helper: apiFetch (เหมือนเดิม)
 async function apiFetch(path, opts = {}) {
   const url = `${API_HOST}${path}`;
   try {
     const res = await fetch(url, {
       ...opts,
-      headers: {
-        ...(opts.headers || {}),
-        'Content-Type': 'application/json'
-      }
+      headers: { ...(opts.headers || {}), 'Content-Type': 'application/json' }
     });
     const text = await res.text();
     let data;
-    try { data = text ? JSON.parse(text) : null; } catch(e) { data = text; }
+    try { data = text ? JSON.parse(text) : null; } catch (e) { data = text; }
     return { ok: res.ok, status: res.status, data };
   } catch (err) {
     return { ok: false, status: null, error: String(err) };
   }
 }
 
-// --- GET all users and render (*** ปรับปรุงส่วนนี้ ***) ---
+// --- 2. ฟังก์ชันสำหรับแต่ละหน้า ---
+
+// --- (สำหรับ index.html) ---
 async function refreshUsers() {
+  if (!usersArea) return; // ออกถ้าไม่อยู่หน้า list
   usersArea.textContent = "กำลังโหลด...";
   const r = await apiFetch('/api/users', { method: 'GET' });
-  setDebug('GET /api/users', r);
+  setDebug('GET /api/users', r); // setDebug จะเช็คเองว่ามีกล่อง debug ไหม
   if (!r.ok) {
     usersArea.textContent = `เกิดข้อผิดพลาด: ${r.status || r.error}`;
     return;
   }
   const users = r.data || [];
-  usersArea.innerHTML = ''; // เคลียร์พื้นที่
-
+  usersArea.innerHTML = '';
   if (users.length === 0) {
     usersArea.textContent = "ไม่มีผู้ใช้ในระบบ";
     return;
   }
-  
-  // Render user cards
   users.forEach(u => {
     const card = document.createElement('div');
-    card.className = 'user-card'; // ใช้คลาส CSS ที่กำหนดใหม่
+    card.className = 'user-card';
     card.innerHTML = `
       <div class="user-card-header">
         <strong>${u.name}</strong>
@@ -65,36 +75,35 @@ async function refreshUsers() {
   });
 }
 
-// --- Health check ---
+// --- (สำหรับ health.html) ---
 async function checkHealth() {
   const r = await apiFetch('/health', { method: 'GET' });
   setDebug('GET /health', r);
   alert(r.ok ? `Healthy: ${JSON.stringify(r.data)}` : `Health check failed: ${r.status || r.error}`);
 }
 
-// --- Create user (POST) ---
-document.getElementById('create-form').addEventListener('submit', async (ev)=>{
+// --- (สำหรับ create.html) ---
+async function handleCreateSubmit(ev) {
   ev.preventDefault();
   const fd = new FormData(ev.target);
   const payload = {};
-  for (const [k,v] of fd.entries()) {
+  for (const [k, v] of fd.entries()) {
     if (v && v.trim() !== '') payload[k] = v.trim();
   }
   const r = await apiFetch('/api/users', {
     method: 'POST',
     body: JSON.stringify(payload)
   });
-  createResult.textContent = JSON.stringify(r, null, 2);
+  setCreateResult(r); // ใช้ helper ที่เช็ค null
   setDebug('POST /api/users', r);
   if (r.ok) {
-    // รีโหลดรายการ
-    await refreshUsers();
+    alert('สร้างผู้ใช้สำเร็จ!');
     ev.target.reset();
   }
-});
+}
 
-// --- GET by id ---
-document.getElementById('btn-get').addEventListener('click', async ()=>{
+// --- (สำหรับ search.html) ---
+async function handleGetById() {
   const id = document.getElementById('target-id').value.trim();
   if (!id) { alert('โปรดใส่ user id'); return; }
   const r = await apiFetch(`/api/users/${encodeURIComponent(id)}`, { method: 'GET' });
@@ -104,10 +113,9 @@ document.getElementById('btn-get').addEventListener('click', async ()=>{
   } else {
     alert(`ไม่พบหรือเกิดข้อผิดพลาด: ${r.status}`);
   }
-});
+}
 
-// --- DELETE by id ---
-document.getElementById('btn-delete').addEventListener('click', async ()=>{
+async function handleDeleteById() {
   const id = document.getElementById('target-id').value.trim();
   if (!id) { alert('โปรดใส่ user id'); return; }
   if (!confirm(`จะลบผู้ใช้ id='${id}' หรือไม่?`)) return;
@@ -115,20 +123,18 @@ document.getElementById('btn-delete').addEventListener('click', async ()=>{
   setDebug(`DELETE /api/users/${id}`, r);
   if (r.ok) {
     alert(`ลบแล้ว: ${JSON.stringify(r.data)}`);
-    refreshUsers();
   } else {
     alert(`ลบไม่สำเร็จ: ${r.status}`);
   }
-});
+}
 
-// --- PUT (update) ---
-document.getElementById('btn-put').addEventListener('click', async (ev)=>{
+async function handleUpdateById(ev) {
   ev.preventDefault();
   const id = document.getElementById('target-id').value.trim();
   if (!id) { alert('โปรดใส่ user id'); return; }
   const fd = new FormData(document.getElementById('update-form'));
   const payload = {};
-  for (const [k,v] of fd.entries()) {
+  for (const [k, v] of fd.entries()) {
     if (v && v.trim() !== '') payload[k] = v.trim();
   }
   if (Object.keys(payload).length === 0) {
@@ -142,16 +148,47 @@ document.getElementById('btn-put').addEventListener('click', async (ev)=>{
   setDebug(`PUT /api/users/${id}`, r);
   if (r.ok) {
     alert('อัปเดตสำเร็จ');
-    refreshUsers();
     document.getElementById('update-form').reset();
   } else {
     alert(`อัปเดตไม่สำเร็จ: ${r.status}`);
   }
+}
+
+// --- 3. ส่วนผูก Event (ตรวจสอบก่อนผูก) ---
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // -- หน้า index.html --
+  const btnRefresh = document.getElementById('btn-refresh');
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', refreshUsers);
+    refreshUsers(); // โหลดครั้งแรกเมื่อเปิดหน้า
+  }
+
+  // -- หน้า create.html --
+  const createForm = document.getElementById('create-form');
+  if (createForm) {
+    createForm.addEventListener('submit', handleCreateSubmit);
+  }
+
+  // -- หน้า search.html --
+  const btnGet = document.getElementById('btn-get');
+  if (btnGet) {
+    btnGet.addEventListener('click', handleGetById);
+  }
+  const btnDelete = document.getElementById('btn-delete');
+  if (btnDelete) {
+    btnDelete.addEventListener('click', handleDeleteById);
+  }
+  const btnPut = document.getElementById('btn-put');
+  if (btnPut) {
+    // ที่ปุ่ม btn-put (ใน form) ต้องดัก click ไม่ใช่ submit
+    // เพราะปุ่ม btn-put ไม่ใช่ type="submit"
+    btnPut.addEventListener('click', handleUpdateById);
+  }
+
+  // -- หน้า health.html --
+  const btnHealth = document.getElementById('btn-health');
+  if (btnHealth) {
+    btnHealth.addEventListener('click', checkHealth);
+  }
 });
-
-// --- init bindings ---
-document.getElementById('btn-refresh').addEventListener('click', refreshUsers);
-document.getElementById('btn-health').addEventListener('click', checkHealth);
-
-// load initial
-refreshUsers();
